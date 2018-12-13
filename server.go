@@ -12,6 +12,7 @@ import (
 // RunServer run server
 func RunServer(engine *gin.Engine) error {
 	addr := GetServerAddr()
+	fmt.Println("server addr : ", addr)
 
 	// https
 	if strings.ToLower(os.Getenv("ServerSSLUse")) == "true" {
