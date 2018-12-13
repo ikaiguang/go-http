@@ -5,18 +5,6 @@ import (
 	"os"
 )
 
-// SetMode gin.SetMode
-func SetMode(ginMode string) {
-	gin.SetMode(ginMode)
-}
-
-// setProductionMode production mode
-func setProductionMode() {
-	if os.Getenv("AppEnvironment") == "production" {
-		SetMode(gin.ReleaseMode)
-	}
-}
-
 // Default gin.New
 func New() *gin.Engine {
 	setProductionMode()
@@ -29,6 +17,18 @@ func Default() *gin.Engine {
 	setProductionMode()
 
 	return gin.Default()
+}
+
+// setProductionMode production mode
+func setProductionMode() {
+	if os.Getenv("AppEnvironment") == "production" {
+		SetMode(gin.ReleaseMode)
+	}
+}
+
+// SetMode gin.SetMode
+func SetMode(ginMode string) {
+	gin.SetMode(ginMode)
 }
 
 // Use gin.Engine.Use

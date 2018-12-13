@@ -8,7 +8,7 @@ golang http server
 
 ```go
 
-func TestNew(t *testing.T) {
+func TestRunServer(t *testing.T) {
 	engine := New()
 
 	var handler = func(c *gin.Context) {
@@ -19,7 +19,7 @@ func TestNew(t *testing.T) {
 
 	RegisterRoutes(engine, []*Route{NewRoute("GET", "ping", handler)})
 
-	if err := Run(engine, ":8081"); err != nil {
+	if err := RunServer(engine); err != nil {
 		panic(err)
 	}
 }
