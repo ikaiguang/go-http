@@ -10,7 +10,7 @@ import (
 )
 
 // RunServer run server
-func RunServer(engine *gin.Engine) error {
+func RunServer(engine *gin.Engine) {
 	addr := GetServerAddr()
 	fmt.Println("server addr : ", addr)
 
@@ -18,17 +18,21 @@ func RunServer(engine *gin.Engine) error {
 	if strings.ToLower(os.Getenv("ServerSSLUse")) == "true" {
 		pwdPath, err := os.Getwd()
 		if err != nil {
-			return fmt.Errorf("RunServer os.Getwd error : %v", err)
+			panic(fmt.Errorf("RunServer os.Getwd error : %v", err))
 		}
 
 		certFile := filepath.Join(pwdPath, os.Getenv("ServerSSLFileCert"))
 		keyFile := filepath.Join(pwdPath, os.Getenv("ServerSSLFileKey"))
 
-		return RunTLS(engine, addr, certFile, keyFile)
+		if err := RunTLS(engine, addr, certFile, keyFile); err != nil {
+			panic(fmt.Errorf("RunServer RunTLS(engine, addr, certFile, keyFile) error : %v", err))
+		}
 	}
 
-	// http
-	return Run(engine, addr)
+	// server
+	if err := Run(engine, addr); err != nil {
+		panic(fmt.Errorf("RunServer Run(engine, addr) error : %v", err))
+	}
 }
 
 // GetServerAddr server addr
